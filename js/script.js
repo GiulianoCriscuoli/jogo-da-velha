@@ -2,8 +2,8 @@ let x = document.querySelector(".x");
 let o = document.querySelector(".o");
 let boxes = document.querySelectorAll(".box");
 let button = document.querySelectorAll("#buttons button");
-let message = document.querySelector("#message");
-let messageText = document.querySelector("#message p");
+let messageContainer = document.querySelector("#message");
+let message = document.querySelector("#message p");
 let secondPlayer = document.querySelector("#two-players");
 
 //número de jogadas do player 1 e 2
@@ -86,11 +86,12 @@ function checkForWin() {
 
         if(b1Child == "x" && b2Child == "x" && b3Child == "x") {
 
-            console.log("x venceu");
+            declareWinner('x');
 
         } else if(b1Child == "o" && b2Child == "o" && b3Child == "o") {
 
-            console.log("o venceu");
+            declareWinner('o');
+
         }
 
         }
@@ -105,11 +106,12 @@ function checkForWin() {
 
         if(b4Child == "x" && b5Child == "x" && b6Child == "x") {
 
-            console.log("x venceu");
+            declareWinner('x');
 
             } else if(b4Child == "o" && b5Child == "o" && b6Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
+
             }
         }
 
@@ -123,11 +125,12 @@ function checkForWin() {
 
             if(b7Child == "x" && b8Child == "x" && b9Child == "x") {
 
-                console.log("x venceu");
+                declareWinner('x');
 
             } else if(b7Child == "o" && b8Child == "o" && b9Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
+
             }
         }
 
@@ -139,11 +142,11 @@ function checkForWin() {
     
             if(b1Child == "x" && b4Child == "x" && b7Child == "x") {
 
-                console.log("x venceu");
+                declareWinner('x');
 
             } else if(b1Child == "o" && b4Child == "o" && b7Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
 
             }
         }
@@ -156,11 +159,11 @@ function checkForWin() {
 
             if(b2Child == "x" && b5Child == "x" && b8Child == "x") {
 
-                console.log("x venceu");
+                declareWinner('x');
 
             } else if(b2Child == "o" && b5Child == "o" && b8Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
             }
         }
 
@@ -172,11 +175,11 @@ function checkForWin() {
 
             if(b3Child == "x" && b6Child == "x" && b9Child == "x") {
 
-                console.log("x venceu");
+                declareWinner('x');
 
             } else if(b3Child == "o" && b6Child == "o" && b9Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
 
             }
         }
@@ -189,11 +192,11 @@ function checkForWin() {
 
             if(b1Child == "x" && b5Child == "x" && b9Child == "x") {
 
-                console.log("x venceu");
+                declareWinner('x');
 
             } else if(b1Child == "o" && b5Child == "o" && b9Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
             }
         }
 
@@ -205,11 +208,11 @@ function checkForWin() {
 
             if(b3Child == "x" && b5Child == "x" && b7Child == "x") {
 
-                console.log("x venceu");
+                declareWinner('x');
 
             } else if(b3Child == "o" && b5Child == "o" && b7Child == "o") {
 
-                console.log("o venceu");
+                declareWinner('o');
 
             }
 
@@ -227,8 +230,47 @@ function checkForWin() {
 
         if(counterElement == 9) {
 
-            console.log(" Deu velha!")
+            declareWinner('deu velha');
         }
      
     }
+
     
+    function declareWinner(winner) {
+
+        let scoreBoardX = document.querySelector("#initial-score");
+        let scoreBoardO = document.querySelector("#initial-score-2");
+        let msg = "";
+
+        if(winner == "x") {
+
+            scoreBoardX.textContent = parseInt(scoreBoardX.textContent) + 1;
+            msg = "Player 1 venceu";
+        } else if(winner == "o") {
+
+            scoreBoardO.textContent = parseInt(scoreBoardO.textContent) + 1;
+            msg = "Player 2 venceu";
+        } else {
+
+            msg = "Deu velha!";
+        }
+
+        message.innerHTML = msg;
+        messageContainer.classList.remove("hide");
+
+        setTimeout(function(){
+
+            messageContainer.classList.add("hide");
+
+        }, 3000);
+
+        player1 = 0;
+        player2 = 0;
+
+        let boxesToRemove = document.querySelectorAll(".box div");
+
+        for(i = 0; i < boxesToRemove.length; i++) {
+
+            boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
+        }
+    }
