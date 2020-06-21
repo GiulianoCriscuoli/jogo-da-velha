@@ -4,12 +4,38 @@ let boxes = document.querySelectorAll(".box");
 let button = document.querySelectorAll("#buttons button");
 let messageContainer = document.querySelector("#message");
 let message = document.querySelector("#message p");
-let secondPlayer = document.querySelector("#two-players");
+let secondPlayer;
 
 //número de jogadas do player 1 e 2
 
 let player1 = 0;
 let player2 = 0;
+
+// Fazer o jogo aparecer
+
+for(let i = 0; i < button.length; i++) {
+
+    button[i].addEventListener("click", function() {
+
+        secondPlayer = this.getAttribute("id");
+
+        for(let j = 0; j < button.length; j++) {
+
+            button[j].style.display = "none";
+            
+        }
+
+        setTimeout(function() {
+
+            let container = document.querySelector("#container");
+            container.classList.remove("hide");
+
+        }, 500);
+
+    });
+
+}
+
 
 // evento para selecionar a caixa da jogada
 
@@ -30,6 +56,13 @@ for(let i = 0; i < boxes.length; i++) {
         if(player1 == player2) {
 
             player1++;
+
+            if(secondPlayer == "ia-player") {
+
+                computerPlay();
+                player2++;
+
+            }
         
             } else  {
         
@@ -43,6 +76,7 @@ for(let i = 0; i < boxes.length; i++) {
     });
 
 }
+
 
 //função gera um elemento x ou o dependendo da condição
 
@@ -208,11 +242,11 @@ function checkForWin() {
 
             if(b3Child == "x" && b5Child == "x" && b7Child == "x") {
 
-                declareWinner('x');
+                declareWinner("x");
 
             } else if(b3Child == "o" && b5Child == "o" && b7Child == "o") {
 
-                declareWinner('o');
+                declareWinner("o");
 
             }
 
@@ -230,11 +264,11 @@ function checkForWin() {
 
         if(counterElement == 9) {
 
-            declareWinner('deu velha');
+            declareWinner("Deu velha!");
         }
      
     }
-
+       // Declara o vencedor
     
     function declareWinner(winner) {
 
@@ -266,11 +300,48 @@ function checkForWin() {
 
         player1 = 0;
         player2 = 0;
+        
+        // Remove os elementos para jogar novamente
 
         let boxesToRemove = document.querySelectorAll(".box div");
 
         for(i = 0; i < boxesToRemove.length; i++) {
 
             boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
+        }
+    }
+
+    function computerPlay() {
+
+        let cloneO = o.cloneNode(true);
+        let counter = 0;
+        let filled = 0;
+
+        for(let i = 0; i < boxes.length; i++) {
+
+            let randomPlay = Math.floor(Math.random() * 5);
+
+            // Preenche se estiver vazio
+
+            if(boxes[i].childNodes[0] == undefined) {
+
+                if(randomPlay <= 1) {
+
+                    boxes[i].appendChild(cloneO);
+                    counter++;
+                    break;
+
+                }
+                    
+                // Mostra quantos espaços foram preenchidos
+                
+                } else {
+
+                    filled++;
+                }
+            }
+
+        if(counter == 0 && filled < 9) {
+            computerPlay();
         }
     }
